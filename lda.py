@@ -17,10 +17,12 @@ import random
 from collections import defaultdict
 import matplotlib.pyplot as plt
 
+np.random.seed(12345)
+
 n_docs = 5000
 n_topics = 20
 
-conn_str = "host={} dbname={} user={} password={}".format("localhost", "___", "___", "___")
+conn_str = "host={} dbname={} user={} password={}".format("localhost", "itunes", "postgres", "linux116")
 conn = psycopg2.connect(conn_str)
 
 sql_query = "SELECT concat(title, '. ', body) AS Review FROM public.app_reviewflat ORDER BY id ASC LIMIT " + str(n_docs)
@@ -270,8 +272,11 @@ topic_std = docs_topics[:, doc_id, :].std(axis=0)
 colors = plt.cm.get_cmap('hsv', n_topics)
 colors = [colors(topic) for topic in range(n_topics)]
 plt.axhline(y=1)
-plt.bar(range(n_topics), topic_prob, yerr=topic_std, align='center', alpha=0.5, color=colors)
-plt.xticks(range(n_topics), range(n_topics))
+x = np.array(range(n_topics)) + 1
+plt.bar(x, topic_prob, yerr=topic_std, align='center', alpha=0.5, color=colors)
+plt.xticks(x, x)
 plt.ylabel('Topic Probability')
+plt.xlabel('Topic ID')
 plt.title('Document #'+str(doc_id))
+plt.savefig('filename.png', dpi=300)
 plt.show()
