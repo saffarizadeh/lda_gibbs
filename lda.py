@@ -310,3 +310,10 @@ plt.xlabel('Topic ID')
 plt.title('Document #'+str(doc_id))
 plt.savefig('filename.png', dpi=300)
 plt.show()
+
+topterms = lda.topterms()
+topic_topwords = {}
+for topic_id in range(n_topics):
+    topic_topwords[topic_id] = topterms[topic_id]
+topic_topwords_df = pd.DataFrame(topic_topwords)
+topic_topwords_df.to_csv("topic_topwords.csv", sep='\t', encoding='utf-8')
