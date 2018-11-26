@@ -19,12 +19,12 @@ import matplotlib.pyplot as plt
 
 np.random.seed(12345)
 
-# n_docs is used to retreive the proper number of docs from the database
+# n_docs is used to retrieve the proper number of docs from the database
 n_docs = 5000
 n_topics = 20
 
 # Database address and credentials
-conn_str = "host={} dbname={} user={} password={}".format("localhost", "___", "___", "___")
+conn_str = "host={} dbname={} user={} password={}".format("localhost", "itunes", "postgres", "linux116")
 # Creating the postgresql connection object to use in pandas
 conn = psycopg2.connect(conn_str)
 # SQL query to retrieve n_docs number of reviews and concatenate the title and body for each review
@@ -82,7 +82,7 @@ class LDA(object):
         self.vocab = vocab
         # Nunber of topics
         self.n_topics = n_topics
-        # Corpus: {DocID: [WordID1, WordID1, WordID2, ...]}
+        # Corpus: {doc_id: [word_1, word_1, word2, ...]}
         self.documents = corpus
         
         # Number of documents
@@ -129,7 +129,7 @@ class LDA(object):
                 random_topic = random.randint(0, self.n_topics-1)
                 # Assign the randomly drawn topic to ith word of the current document (doc_id)
                 self.topic_assignments[doc_id][i] = random_topic
-                # Update count variables according to the newly assinged topic to the word
+                # Update count variables according to the newly assigned topic to the word
                 self.update_count_variables(doc_id, random_topic, word_id, 1)
     
     # Update the count variables using the value of change.
@@ -155,7 +155,7 @@ class LDA(object):
         new_z = np.random.multinomial(1, full_conditional_dist).argmax()
         # Assign the randomly drawn topic to the word in word_position_in_doc of the current document (doc_id)
         self.topic_assignments[doc_id][word_position_in_doc] = new_z
-        # Update count variables according to the newly assinged topic to the word
+        # Update count variables according to the newly assigned topic to the word
         self.update_count_variables(doc_id, new_z, word_id, 1)
         
 
@@ -165,7 +165,6 @@ class LDA(object):
         # Note that the ':' means 'all'
         part_1 = (self.topic_likes_word[:,word_id] + self.beta) / (self.topic_count + self.beta * self.n_words)
         part_2 = (self.doc_likes_topic[doc_id, :] + self.alpha) / (self.doc_length[doc_id] + np.sum(self.alpha))
-        
         # Full conditional distribution
         full_conditional_dist = part_1 * part_2
         # To obtain probability
