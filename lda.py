@@ -24,7 +24,7 @@ n_docs = 5000
 n_topics = 20
 
 # Database address and credentials
-conn_str = "host={} dbname={} user={} password={}".format("localhost", "___", "___", "___")
+conn_str = "host={} dbname={} user={} password={}".format("localhost", "itunes", "postgres", "linux116")
 # Creating the postgresql connection object to use in pandas
 conn = psycopg2.connect(conn_str)
 # SQL query to retrieve n_docs number of reviews and concatenate the title and body for each review
@@ -48,6 +48,7 @@ class LemmaTokenizer(object):
 # Create an object from the lemmazier
 lemmatizer =LemmaTokenizer()
 
+#Create a list of documents, each of which is a list of lemmas
 lem_docs = [lemmatizer(doc) for doc in docs]
 
 # Find corpus term frequency
