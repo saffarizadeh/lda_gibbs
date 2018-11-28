@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 np.random.seed(12345)
 
 # n_docs is used to retrieve the proper number of docs from the database
-n_docs = 5000
+n_docs = 10000
 n_topics = 20
 
 # Database address and credentials
@@ -308,7 +308,7 @@ topic_topwords_df.to_csv("topic_topwords.csv", sep='\t', encoding='utf-8')
 docs_topics = np.array(lda.theta_estimates)
 words_topics = np.array(lda.phi_estimates)
 
-doc_id = 3
+doc_id = 13
 topic_prob = docs_topics[:, doc_id, :].mean(axis=0)
 topic_std = docs_topics[:, doc_id, :].std(axis=0)
 colors = plt.cm.get_cmap('hsv', n_topics)
@@ -320,10 +320,10 @@ plt.xticks(x, x)
 plt.ylabel('Topic Probability')
 plt.xlabel('Topic ID')
 plt.title('Document #'+str(doc_id))
-plt.savefig('doc3.png', dpi=300)
+plt.savefig('doc'+str(doc_id)+'.png', dpi=300)
 plt.show()
 
-word = "crash"
+word = "change"
 word_id = vocab.index(word)
 w_topic_prob = words_topics[:, :, word_id].mean(axis=0)
 w_topic_std = words_topics[:, :, word_id].std(axis=0)
@@ -333,5 +333,11 @@ plt.xticks(x, x)
 plt.ylabel('Topic Probability')
 plt.xlabel('Topic ID')
 plt.title('Word: '+ word)
-plt.savefig('word_crash.png', dpi=300)
+plt.savefig('word_'+word+'.png', dpi=300)
 plt.show()
+
+# Average document size
+k = 0
+for doc in lem_docs:
+    k += len(doc)
+k /= len(docs)
