@@ -24,7 +24,7 @@ n_docs = 10000
 n_topics = 20
 
 # Database address and credentials
-conn_str = "host={} dbname={} user={} password={}".format("localhost", "itunes", "postgres", "linux116")
+conn_str = "host={} dbname={} user={} password={}".format("<host>", "<database name>", "<username>", "<password>")
 # Creating the postgresql connection object to use in pandas
 conn = psycopg2.connect(conn_str)
 # SQL query to retrieve n_docs number of reviews and concatenate the title and body for each review
